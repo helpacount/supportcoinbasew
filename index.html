@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario Elegante - EmailJS</title>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <style>
+    body {
+      background: #f5f3eb;
+      font-family: 'Georgia', serif;
+      color: #3b3b3b;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+      border: 1px solid #d3c9ae;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 26px;
+      color: #6b5d4d;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      margin-bottom: 8px;
+      font-weight: bold;
+      font-size: 14px;
+      color: #4d473f;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background-color: #fbfaf7;
+      font-size: 15px;
+      font-family: 'Georgia', serif;
+      color: #2d2d2d;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #b5a276;
+      box-shadow: 0 0 5px #b5a27644;
+    }
+
+    button {
+      margin-top: 30px;
+      width: 100%;
+      padding: 14px;
+      background-color: #b5a276;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      font-family: 'Georgia', serif;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #a18e68;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #999;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Enviar Múltiples Correos</h2>
+
+    <label for="valor">Valor en euros:</label>
+    <input type="number" id="valor" placeholder="Ejemplo: 100" step="0.01">
+
+    <label for="porcentaje">Porcentaje a aplicar (%):</label>
+    <input type="number" id="porcentaje" placeholder="Ejemplo: 20" step="0.1">
+
+    <label for="correos">Correos electrónicos (separados por coma):</label>
+    <textarea id="correos" rows="4" placeholder="ejemplo1@correo.com, ejemplo2@correo.com"></textarea>
+
+    <button onclick="calcularYEnviar()">Enviar Correos</button>
+
+    <div class="footer">Sistema privado de notificación - EmailJS</div>
+  </div>
+
+  <script>
+    (function () {
+      emailjs.init("GcwA-UmY0n3HlTID1");
+    })();
+
+    function calcularYEnviar() {
+      const valor = parseFloat(document.getElementById("valor").value);
+      const porcentaje = parseFloat(document.getElementById("porcentaje").value);
+      const correos = document.getElementById("correos").value.split(",");
+
+      if (isNaN(valor) || isNaN(porcentaje) || correos.length === 0) {
+        alert("Por favor, completa todos los campos correctamente.");
+        return;
+      }
+
+      const amount = valor.toFixed(2);
+      const amount9 = (valor * (porcentaje / 100)).toFixed(2);
+
+      correos.forEach(correo => {
+        const data = {
+          amount: amount,
+          amount9: amount9,
+          to_email: correo.trim()
+        };
+
+        emailjs.send("service_66flncn", "template_8zypl3s", data)
+          .then(res => console.log("Enviado a", correo.trim(), res.text))
+          .catch(err => console.error("Error con", correo.trim(), err));
+      });
+
+      alert("Correos enviados correctamente.");
+    }
+  </script>
+</body>
+</html>
